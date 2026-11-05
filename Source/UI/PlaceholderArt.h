@@ -17,7 +17,8 @@ namespace SampleSquare {
                 juce::Colour endCol   = juce::Colour::fromHSV((hue + 60) / 360.0f, 0.6f, 0.5f, 1.0f);
                 
                 juce::ColourGradient grad(startCol, 0, 0, endCol, 256, 256, false);
-                g.fillGradient(grad, juce::Rectangle<float>(0, 0, 256, 256));
+                g.setGradientFill(grad);
+                g.fillRect(0, 0, 256, 256);
 
                 // Iniciales centradas en bold
                 juce::String initials = name.substring(0, 2).toUpperCase();

@@ -24,7 +24,7 @@ namespace SampleSquare {
                 result.name = file.getFileNameWithoutExtension();
 
                 juce::XmlDocument doc(file);
-                if (auto* root = doc.getDocumentElement()) {
+                if (auto root = doc.getDocumentElement()) {
                     if (root->hasTagName("DecentSampler")) {
                         // UI Cover Art
                         if (auto* uiNode = root->getChildByName("ui")) {
@@ -61,7 +61,6 @@ namespace SampleSquare {
                             }
                         }
                     }
-                    delete root;
                 }
                 return result;
             }

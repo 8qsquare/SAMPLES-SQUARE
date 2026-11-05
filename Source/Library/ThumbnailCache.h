@@ -24,13 +24,11 @@ namespace SampleSquare {
                 const auto cacheFile = cacheDir.getChildFile(hash + ".png");
 
                 if (cacheFile.existsAsFile()) {
-                    juce::Image img;
-                    juce::ImageFileFormat::loadFrom(img, cacheFile);
-                    return img;
+                    return juce::ImageFileFormat::loadFrom(cacheFile);
                 }
 
                 // Generar Placeholder si no existe
-                juce::Image img = PlaceholderArt::generate(presetFile.getFileNameWithoutExtension());
+                juce::Image img = UI::PlaceholderArt::generate(presetFile.getFileNameWithoutExtension());
                 juce::PNGImageFormat pngFormat;
                 juce::FileOutputStream out(cacheFile);
                 pngFormat.writeImageToStream(img, out);

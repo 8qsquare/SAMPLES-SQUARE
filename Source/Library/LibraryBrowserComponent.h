@@ -34,12 +34,18 @@ namespace SampleSquare {
 
             void buttonClicked(juce::Button* button) override {
                 if (button == selectButton.get()) {
-                    juce::FileChooser chooser("Seleccionar carpeta raíz de librerías", manager.getLastRootFolder(), "");
-                    if (chooser.browseForDirectory()) {
-                        manager.scanRootFolder(chooser.getResult(), [this](std::vector<LibraryInfo>) {
-                            refresh();
-                        });
-                    }
+                    chooser = std::make_unique<juce::FileChooser>(
+                        "Seleccionar carpeta raíz de librerías", manager.getLastRootFolder(), "");
+                    chooser->launchAsync(juce::FileBrowserComponent::openMode
+                                             | juce::FileBrowserComponent::canSelectDirectories,
+                                         [this](const juce::FileChooser& fileChooser) {
+                                             const auto selectedFolder = fileChooser.getResult();
+                                             if (selectedFolder.isDirectory())
+                                                 manager.scanRootFolder(selectedFolder, [this](std::vector<LibraryInfo>) {
+                                                     refresh();
+                                                 });
+                                             chooser.reset();
+                                         });
                 }
             }
 
@@ -51,6 +57,7 @@ namespace SampleSquare {
             LibraryManager& manager;
             std::unique_ptr<LibraryGridComponent> grid;
             std::unique_ptr<juce::TextButton> selectButton;
+            std::unique_ptr<juce::FileChooser> chooser;
             LibrarySelectedCallback onLibrarySelected;
 
             JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(LibraryBrowserComponent)

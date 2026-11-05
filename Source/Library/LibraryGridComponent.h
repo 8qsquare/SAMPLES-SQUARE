@@ -5,13 +5,11 @@
 
 namespace SampleSquare {
     namespace Library {
-        class LibraryGridComponent : public juce::Component, public juce::MouseListener {
+        class LibraryGridComponent : public juce::Component {
         public:
             using LibraryClickedCallback = std::function<void(const LibraryInfo&)>;
 
-            explicit LibraryGridComponent() {
-                addMouseListener(this, true);
-            }
+            explicit LibraryGridComponent() = default;
 
             void setLibraries(std::vector<LibraryInfo> libs) {
                 libraries = std::move(libs);
@@ -53,12 +51,8 @@ namespace SampleSquare {
 
                     // Imagen escalada centrada
                     juce::Rectangle<int> thumbRect = cellBounds.reduced(Branding::PADDING).removeFromTop(Branding::THUMB_SIZE);
-                    g.drawImageTransformed(lib.coverImage, juce::AffineTransform::scaled(
-                        static_cast<float>(thumbRect.getWidth()) / lib.coverImage.getWidth(),
-                        static_cast<float>(thumbRect.getHeight()) / lib.coverImage.getHeight(),
-                        thumbRect.getX() + (thumbRect.getWidth() - lib.coverImage.getWidth() * (static_cast<float>(thumbRect.getWidth()) / lib.coverImage.getWidth())) / 2.0f,
-                        thumbRect.getY()
-                    ));
+                    if (lib.coverImage.isValid())
+                        g.drawImage(lib.coverImage, thumbRect.toFloat(), juce::RectanglePlacement::centred);
 
                     // Nombre abajo
                     g.setColour(Branding::TEXT_PRIMARY);

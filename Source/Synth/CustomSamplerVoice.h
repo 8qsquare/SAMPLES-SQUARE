@@ -53,7 +53,7 @@ namespace SampleSquare {
             }
 
             void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override {
-                auto* sound = dynamic_cast<CustomSamplerSound*>(getCurrentlyPlayingSound());
+                auto* sound = dynamic_cast<CustomSamplerSound*>(getCurrentlyPlayingSound().get());
                 if (!sound) return;
 
                 const auto snapshot = sharedParams.snapshot();
@@ -69,7 +69,7 @@ namespace SampleSquare {
                 const double pitchRatio = std::pow(2.0, (static_cast<double>(currentNote) - rootNote) / 12.0);
                 auto cacheStart = static_cast<juce::int64>(samplePos);
                 auto cacheLength = static_cast<int>(juce::jmin<juce::int64>(
-                    sampleCache.getNumSamples(), sound->getNumSamples() - cacheStart));
+                    static_cast<juce::int64>(sampleCache.getNumSamples()), sound->getNumSamples() - cacheStart));
                 if (cacheLength > 0)
                     sound->readSamples(sampleCache, 0, cacheLength, cacheStart);
 
@@ -92,7 +92,7 @@ namespace SampleSquare {
                     if (pos < cacheStart || nextPos >= cacheStart + cacheLength) {
                         cacheStart = pos;
                         cacheLength = static_cast<int>(juce::jmin<juce::int64>(
-                            sampleCache.getNumSamples(), sound->getNumSamples() - cacheStart));
+                            static_cast<juce::int64>(sampleCache.getNumSamples()), sound->getNumSamples() - cacheStart));
                         if (cacheLength > 0)
                             sound->readSamples(sampleCache, 0, cacheLength, cacheStart);
                     }

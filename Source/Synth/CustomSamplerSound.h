@@ -38,15 +38,15 @@ namespace SampleSquare {
                 return 0.0f;
             }
 
-            int64 getNumSamples() const noexcept {
+            juce::int64 getNumSamples() const noexcept {
                 return isStreaming && mappedReader ? mappedReader->lengthInSamples
-                                                    : static_cast<int64>(ramBuffer.getNumSamples());
+                                                    : static_cast<juce::int64>(ramBuffer.getNumSamples());
             }
 
             void readSamples(juce::AudioBuffer<float>& destination, int destinationStart,
-                             int numSamples, int64 sourceStart) const {
-                const int available = static_cast<int>(juce::jmax<int64>(
-                    0, juce::jmin<int64>(numSamples, getNumSamples() - sourceStart)));
+                             int numSamples, juce::int64 sourceStart) const {
+                const int available = static_cast<int>(juce::jmax<juce::int64>(
+                    0, juce::jmin<juce::int64>(static_cast<juce::int64>(numSamples), getNumSamples() - sourceStart)));
                 if (available <= 0)
                     return;
 

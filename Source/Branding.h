@@ -2,6 +2,7 @@
 #include <juce_core/juce_core.h>
 
 namespace SampleSquare {
+namespace Branding {
     inline const juce::String APP_NAME = "Sample Square";
     inline const juce::String APP_VERSION = "0.1.0";
 
@@ -19,4 +20,5 @@ namespace SampleSquare {
     inline constexpr int PADDING       = 12;
     inline constexpr int COLUMNS       = 4;
     inline constexpr int CORNER_R      = 8;
+}
 }

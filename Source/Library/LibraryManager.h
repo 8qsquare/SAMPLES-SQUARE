@@ -1,6 +1,7 @@
 #pragma once
 #include <juce_core/juce_core.h>
 #include <juce_data_structures/juce_data_structures.h>
+#include <juce_events/juce_events.h>
 #include <vector>
 #include "LibraryInfo.h"
 #include "ThumbnailCache.h"
@@ -22,7 +23,7 @@ namespace SampleSquare {
             }
 
             ~LibraryManager() {
-                threadPool.removeAllJobs(true);
+                threadPool.removeAllJobs(true, 5000);
             }
 
             void scanRootFolder(const juce::File& folder, std::function<void(std::vector<LibraryInfo>)> onFinished) {
@@ -49,10 +50,8 @@ namespace SampleSquare {
 
                 JobStatus runJob() override {
                     std::vector<LibraryInfo> found;
-                    juce::RangedDirectoryIterator iter(rootFolder, true, "*.dspreset");
-                    
-                    while (iter.next()) {
-                        const auto& file = iter.getFile();
+                    for (const auto& entry : juce::RangedDirectoryIterator(rootFolder, true, "*.dspreset")) {
+                        const auto& file = entry.getFile();
                         LibraryInfo info;
                         info.name = file.getParentDirectory().getFileName();
                         info.folder = file.getParentDirectory();

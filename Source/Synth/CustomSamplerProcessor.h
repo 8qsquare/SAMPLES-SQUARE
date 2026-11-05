@@ -14,7 +14,7 @@ namespace SampleSquare {
         class CustomSamplerProcessor : public juce::AudioProcessor {
         public:
             CustomSamplerProcessor()
-                : AudioProcessor(juce::BusesProperties()
+                : AudioProcessor(juce::AudioProcessor::BusesProperties()
                                      .withOutput("Output", juce::AudioChannelSet::stereo(), true)),
                   sharedParams(),
                   formatManager(),
@@ -65,7 +65,7 @@ namespace SampleSquare {
             }
 
             void loadLibraryAsync(const juce::File& file, std::function<void()> onLibraryLoaded) {
-                PresetLoader::loadAsync(file, [this, onLibraryLoaded](std::vector<std::unique_ptr<CustomSamplerSound>> sounds) {
+                Preset::PresetLoader::loadAsync(file, [this, onLibraryLoaded](std::vector<std::unique_ptr<CustomSamplerSound>> sounds) {
                     for (auto& s : sounds) {
                         synth.addSound(juce::SynthesiserSound::Ptr(s.release()));
                     }

@@ -24,7 +24,7 @@ namespace SampleSquare {
 
             void drawLinearSlider(juce::Graphics& g, int x, int y, int width, int height,
                                   float sliderPos, float minSliderPos, float maxSliderPos,
-                                  const juce::Slider&) override {
+                                  juce::Slider::SliderStyle, juce::Slider&) override {
                 const juce::Rectangle<int> track(x, y + height / 2 - 2, width, 4);
                 g.setColour(Branding::BG_PANEL);
                 g.fillRoundedRectangle(track.toFloat(), 2.0f);
@@ -38,7 +38,7 @@ namespace SampleSquare {
 
             void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height,
                                   float sliderPos, float rotaryStartAngle, float rotaryEndAngle,
-                                  const juce::Slider&) override {
+                                  juce::Slider&) override {
                 const float radius = juce::jmin(width / 2.0f, height / 2.0f) - 4.0f;
                 const juce::Point<float> centre(x + width / 2.0f, y + height / 2.0f);
                 

@@ -38,13 +38,13 @@ namespace SampleSquare {
 
             audioDeviceManager.initialiseWithDefaultDevices(0, 2);
             audioDeviceManager.addAudioCallback(&audioPlayer);
-            audioDeviceManager.addMidiInputCallback(juce::String::empty, &audioPlayer);
+            audioDeviceManager.addMidiInputCallback(juce::String(), &audioPlayer);
             
             setOpaque(true);
         }
 
         ~MainComponent() override {
-            audioDeviceManager.removeMidiInputCallback(juce::String::empty, &audioPlayer);
+            audioDeviceManager.removeMidiInputCallback(juce::String(), &audioPlayer);
             audioDeviceManager.removeAudioCallback(&audioPlayer);
             audioPlayer.setProcessor(nullptr);
             setLookAndFeel(nullptr);
