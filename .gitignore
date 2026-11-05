@@ -1,0 +1,42 @@
+# JUCE
+JUCE/
+build/
+build-*/
+*.log
+*.dSYM
+*.pdb
+*.ilk
+*.exe
+*.dll
+*.so
+*.dylib
+*.app
+*.ipa
+*.apk
+*.a
+*.lib
+*.obj
+*.o
+*.exp
+*.res
+*.rc
+*.manifest
+*.suo
+*.user
+*.ncb
+*.vcproj.*
+*.sln.*
+*.vcxproj.*
+*.filters
+*.cache
+*.tmp
+*.bak
+SampleSquare_artefacts/
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+# Git
+.git/
+.DS_Store
